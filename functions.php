@@ -67,3 +67,10 @@ function productos_type(){
 }
 
 add_action('init','productos_type');
+
+add_action('wp_enqueue_scripts','enqueue_my_script');
+function enqueue_my_script(){
+    if(is_404()){
+      wp_enqueue_style( 'estilo404', get_template_directory_uri().'/style404.css', '','1.0', 'all');
+    }
+}
