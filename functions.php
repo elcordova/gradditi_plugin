@@ -74,3 +74,19 @@ function enqueue_my_script(){
       wp_enqueue_style( 'estilo404', get_template_directory_uri().'/style404.css', '','1.0', 'all');
     }
 }
+
+function pgRegisterTax() {
+  $args = array(
+    'hierarchical' => true,
+    'labels' => array(
+      'name' => 'categorías de Productos',//siempre se usa en plural
+      'singular_name' => 'categoría de Productos'
+    ),
+    'show_in_nav_menu' => true,
+    'show_admin_column' => true,
+    'rewrite' => array('slug' => 'categoria-productos')
+  );
+  register_taxonomy('categoria-productos', array('producto'), $args); 
+}
+
+add_action( 'init', 'pgRegisterTax');

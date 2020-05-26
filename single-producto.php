@@ -4,6 +4,7 @@
     while (have_posts()) {
       the_post();
       ?>
+      <?php $taxonomy = get_the_terms( get_the_ID(), 'categoria-productos')?>
       <h1 class='my-5'><?php the_title(); ?></h1>
       <div class="row">
         <div class="col-4">
@@ -19,7 +20,14 @@
         'post_per_page' => 6,
         'order' => 'ASC',
         'orderby' => 'title',
-        'post__not_in' => array(get_the_ID())
+        'post__not_in' => array(get_the_ID()),
+        'tax_query' => array(
+          array(
+            'taxonomy' => 'categoria-productos',
+            'field' => 'slug',
+            'terms' => $taxonomy[0]->slug
+          )
+        )
       );
       $productos = new WP_Query($args);
       if($productos->have_posts()) {
