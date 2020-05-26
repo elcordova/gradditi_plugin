@@ -20,6 +20,10 @@ function assets() {
   wp_register_script('popper','https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js','', '1.16.0', true);
   wp_enqueue_script( 'bootstrap', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js', array('jquery', 'popper'), '4.5.0', true );
   wp_enqueue_script( 'custom', get_template_directory_uri().'/assets/js/custom.js', '', '1.0', true);
+
+  wp_localize_script('custom','pg', array(
+    'ajax_url' => admin_url('admin-ajax.php')
+  ));
 }
 
 add_action( 'wp_enqueue_scripts','assets');
@@ -90,3 +94,37 @@ function pgRegisterTax() {
 }
 
 add_action( 'init', 'pgRegisterTax');
+
+add_action( 'wp_ajax_nopriv_pgFiltroProductos', "pgFiltroProductos");
+add_action( 'wp_ajax_pgFiltroProductos', "pgFiltroProductos");
+function pgFiltroProductos() {
+  $args = array(
+    'post_type' => 'producto',
+    'post_per_page' => -1,
+    'order' => 'ASC',
+    'orderby' => 'title',
+  );
+  if($_POST['categoria']) {
+    $args['tax_query'] = array(
+      array(
+        'taxonomy' => 'categoria-productos',
+        'field' => 'slug',
+        'terms' => $_POST['categoria']
+      )
+    );
+  }
+  $productos = new WP_Query($args);
+
+  if($productos->have_posts()) {
+    $return = array();
+    while ($productos->have_posts()) {
+      $productos->the_post();
+      $return[] = array(
+        'imagen' => get_the_post_thumbnail(get_the_id(), 'large'),
+        'link' => get_the_permalink(),
+        'titulo' => get_the_title()
+      );
+    }
+    wp_send_json($return);
+  }
+}

@@ -13,11 +13,22 @@
     }
   }
   ?>
-  <div class="lista-productos">
+  <div class="lista-productos my-5">
     <h2 class="text-center">
       PRODUCTOS
     </h2>
     <div class="row">
+      <div class="col-12">
+        <select class="form-control" name="categorias-productos" id="categorias-productos">
+          <option value="">Todas las categorías</option>
+          <?php $terms = get_terms('categoria-productos', array('hide_empty' => true));?>
+          <?php foreach($terms as $term) {
+            echo '<option value="'.$term->slug.'">'.$term->name.'</option>';
+          } ?>
+        </select>
+      </div>
+    </div>
+    <div id="resultado-productos" class="row">
     <?php 
       $args = array(
         'post_type' => 'producto',//corresponde con el nombre de registro
