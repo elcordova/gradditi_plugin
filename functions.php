@@ -173,7 +173,13 @@ function pgRegisterBlock() {
     'pg/basic',
     array(
       'editor_script' => 'pg-block',
-      'render_callback'
+      'attributes'      => array( // Repetimos los atributos del bloque, pero cambiamos los objetos por arrays
+        'content' => array(
+            'type'    => 'string',
+            'default' => 'Hello world'
+        )
+      ),
+      'render_callback' => 'pgRenderDinamycBlock'
     )
   );
 }
