@@ -24,6 +24,6 @@ registerBlockType('pg/basic',
               onChange = {handlerOnChangeInput}
             />
     },
-    save: (props) => <h2>{props.attributes.content}</h2>,
+    save: (props) => null
   }
 );
