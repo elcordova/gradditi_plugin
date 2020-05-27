@@ -32,10 +32,6 @@
     $.ajax({
       url: pg.api_url+"novedades/3",
       method: 'GET',
-      data: {
-        "action": "pgFiltroProductos",
-        "categoria": $(this).find(':selected').val()
-      },
       beforeSend: function() {
         $('#resultado-novedades').html('Cargando...');
       },

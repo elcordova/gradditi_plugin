@@ -158,3 +158,26 @@ function pedidoNovedades($data) {
     return $return;
   }
 }
+
+
+add_action('init', 'pgRegisterBlock');
+function pgRegisterBlock() {
+  $assets = include_once get_template_directory().'/blocks/build/index.asset.php';
+  wp_register_script(
+    'pg-block',
+    get_template_directory_uri().'/blocks/build/index.js',
+    $assets['dependencies'],
+    $assets['version']
+  );
+  register_block_type(
+    'pg/basic',
+    array(
+      'editor_script' => 'pg-block',
+      'render_callback'
+    )
+  );
+}
+
+function pgRenderDinamycBlock($attribute, $content) {
+  return '<h2>'.$attribute['content'].'</h2>';
+}
