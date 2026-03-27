@@ -5,7 +5,7 @@
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
-    "@wordpress/scripts": "^9.1.0"
+    "@wordpress/scripts": "^31.4.0"
   },
   "scripts": {
     "build": "wp-scripts build",
